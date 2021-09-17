@@ -17,13 +17,42 @@ func main() {
 	//structs()
 	//arrays()
 	//slices()
+	//ranges()
+	maps()
 
 }
 
+func maps() {
+	var m map[string]string
+	m = make(map[string]string)
+	m["name"] = "pradeega"
+
+	m2 := map[string]string{
+		"this": "that",
+	}
+	fmt.Println(m)
+	fmt.Println(m2)
+}
+
 func ranges() {
-	pow := []int{1, 2, 3, 4, 5, 6}
+	pow := []int{1, 2, 4, 8, 16, 32}
 	for i, v := range pow {
-		fmt.Printf("i = %v \n v = %v", i, v)
+		fmt.Printf("2^%v = %v \n ", i, v)
+	}
+	fmt.Println()
+
+	for i, _ := range pow {
+		fmt.Printf("2^%v \n", i)
+	}
+	fmt.Println()
+
+	for i := range pow {
+		fmt.Printf("2^%v  \n", i)
+	}
+	fmt.Println()
+
+	for _, v := range pow {
+		fmt.Printf("2^ = %v \n ", v)
 	}
 }
 
