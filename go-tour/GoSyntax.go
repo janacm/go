@@ -6,6 +6,7 @@ import "fmt"
 Go syntax
 */
 func main() {
+	fmt.Println("-- Begin --\n")
 	//fmt.Println(add(3,4))
 	//fmt.Println(getTwo())
 	//fmt.Println(nakedReturn())
@@ -18,7 +19,8 @@ func main() {
 	//arrays()
 	//slices()
 	//ranges()
-	maps()
+	//maps()
+	goroutines()
 
 }
 
@@ -61,17 +63,20 @@ func slices() {
 	array := [5]string{"smile", "smize", "size", "spies", "fries"}
 	slice := array[1:3]
 	slice[0] = "CHANGED"
-	fmt.Printf("array: %s \n", array) // Changing the slice, updates the underlying array
-	fmt.Printf("slice: %s \n", slice)
-	fmt.Println()
+	fmt.Printf("array: %s \n", array) // array: [smile CHANGED size spies fries]
+	fmt.Printf("slice: %s \n", slice) // slice: [CHANGED size]
+	fullSlice := array[:]
+	fmt.Println("whole array slice: ", fullSlice)
 
-	// Capacity VS Length
+	fmt.Printf("\n---Capacity VS Length---")
 	fmt.Printf("Slice's capacity is the underlying arrays length, counting from the first element in the slice: %v \n", cap(slice))
 	fmt.Printf("Slice's length is how many elements it contains: %v \n", len(slice))
 	fmt.Printf("Underlying arrays length: %v \n", len(array))
 
-	// We can extend a slice up till its capacity, before it
+	// We can extend a slice up till its capacity
 	// slice = slice[1:] // Remove first element
+	fmt.Printf("Slice literal")
+	fmt.Printf("Slice literals are defined the same as array literals except without a size in []")
 	a := []int{1, 2, 3} // Slice literal
 	fmt.Printf("a = %v", a)
 
@@ -107,6 +112,7 @@ func arrays() {
 	a[2] = "trumpet"
 	a[3] = "cut the cheese"
 
+	// Array literal
 	b := [2]string{"smile", "smize"}
 
 	fmt.Println(a)
@@ -130,6 +136,10 @@ func structs() {
 
 }
 
+type GTD struct {
+	nextAction string
+}
+
 /**
 Go has pointers. Pointers can only hold
 the memory address of a value. You define
@@ -141,19 +151,81 @@ var a *int // a pointer to an int
 We initialize the pointer by generating a memory address
 from an existing variable using &
 pointToB := &b
+pointToB = 2; // ERROR: Can't do this since pointers only hold memory addresses, not values
+However, if you access the pointer using *, then you can:
+*pointToB = 2; // Sets B to 2
 
 */
 func goPointers() {
-	var b int = 2
-	//var pointToB *int
-	pointToB := &b
-	fmt.Println(b)
-	fmt.Println(&b)
-	fmt.Println(pointToB)
+	fmt.Println("Initialize var a = 1")
+	var a int = 1
+	var pointToA *int
+	pointToA = &a
+	//pointToA = 2; // Can't do this since pointers only hold memory addresses, not values
+	fmt.Printf("a: %v\n", a)
+	fmt.Printf("&a: %v\n", &a)
+	fmt.Printf("pointToA: %v\n", pointToA)
 
-	*pointToB = 21 // pointToB contains a memory address. *pointToB lets us access the variable related to that address.
-	fmt.Println(b) // 21
+	// pointToA contains a memory address. *pointToA lets us access the variable pointed by that address.
+	// This is called dereferencing.
+	// Think of it like a pointer contains a reference, and you dereference it to get the value.
+	*pointToA = 21
+	fmt.Printf("a after setting pointToA=21: %v", a)
 
+	// Dereferencing a nil value causes a panic:
+	//var nilPointer *GTD = nil
+	//fmt.Println(*nilPointer) // panic: runtime error
+
+	// Struct Pointers
+	fmt.Println()
+	fmt.Println()
+	fmt.Printf("---Struct Pointers---")
+	fmt.Println()
+	var gtd = GTD{
+		"Learn pointers",
+	}
+	pointToGtd := &gtd
+	fmt.Printf("gtd: %v\n", gtd)
+	fmt.Printf("pointToGtd: %v\n", pointToGtd)
+	fmt.Printf("pointToGtd.nextAction: %v\n", pointToGtd.nextAction) // Notice we don't have to add the * before pointToGtd in order to access the value
+	fmt.Printf("*pointToGtd: %v\n", *pointToGtd)
+	fmt.Printf("*pointToGtd.nextAction: %v\n", "invalid indirect of pointToGtd.nextAction\n")
+
+	fmt.Printf("---Nil Checks Pointers---\n")
+	// Nil checks
+	if &gtd.nextAction != nil {
+		fmt.Printf("gtd: %v\n", gtd)
+	}
+
+	fmt.Println("Dereferencing Nil vars")
+
+	pointToGtd.setAction("Learn pointer receivers")
+	fmt.Printf("pointToGtd.nextAction after update: %v\n", pointToGtd.nextAction) // Incorrect: old value remains!
+	pointToGtd.setAction_pointerReceiver("Set value using pointer receivers")
+	fmt.Printf("pointToGtd.nextAction after update: %v\n", pointToGtd.nextAction) // Correct: New value
+
+	setAction_noPointers(gtd, "Try to set value without pointers")
+	fmt.Printf("pointToGtd.nextAction after update: %v\n", pointToGtd.nextAction) // Incorrect: old value remains!
+
+	setAction_pointerArg(&gtd, "Set value using pointer arg")
+	fmt.Printf("pointToGtd.nextAction after update: %v\n", pointToGtd.nextAction) // Incorrect: old value remains!
+
+}
+
+func (g GTD) setAction(action string) {
+	g.nextAction = action
+}
+
+func (g *GTD) setAction_pointerReceiver(action string) {
+	g.nextAction = action
+}
+
+func setAction_noPointers(g GTD, action string) {
+	g.nextAction = action
+}
+
+func setAction_pointerArg(g *GTD, action string) {
+	g.nextAction = action
 }
 
 func add(x, y int) int {
@@ -177,7 +249,7 @@ func someVars() int {
 
 func whatsMyType() {
 	a := 30
-	fmt.Printf("%T, %v, %a", a, a, a)
+	fmt.Printf("%T, %v, %v", a, a, a)
 }
 
 func shortIf() {
