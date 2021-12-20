@@ -1,24 +1,15 @@
 package main
 
-import (
-	"fmt"
-	"os/exec"
-	"time"
-)
+import "fmt"
 
 func main() {
-	now := time.Now()
-	nextMeetingTime := getNextMeetingTime()
-	fmt.Printf("now: %s", now)
-	fmt.Printf("nextMeetingTime: %s", nextMeetingTime)
-	fmt.Printf("opening browser")
-	//openBrowser("http://www.google.com")
-}
-
-func getNextMeetingTime() time.Time {
-	return time.Now().Add(time.Second * 5)
-}
-
-func openBrowser(url string) {
-	exec.Command("open", url).Start()
+	fmt.Println("----Start----")
+	/*
+		Tried
+		548 - too low
+	 	549 - too low
+		ANS: 1451
+		ANS pt2: 1395
+	*/
+	Day1_pt2()
 }
