@@ -47,6 +47,7 @@ func goroutines() {
 
 // Channels are used to communicate between goroutines, and let you send and receive values from multiple goroutines.
 // Channels are typed by the values they carry.
+// Channels return two values: the value received and a channel that indicates whether the channel has been closed.
 func channels() {
 	c := make(chan int) // make a channel of ints.
 	go printIntsWithChannel("Channel 1", 100, c)

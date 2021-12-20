@@ -20,8 +20,8 @@ func main() {
 	//slices()
 	//ranges()
 	//maps()
-	goroutines()
-
+	//goroutines()
+	interfaces()
 }
 
 func maps() {
@@ -84,12 +84,12 @@ func slices() {
 	fmt.Printf("a = %v \n", a)
 
 	// Can use `make` to create a slice with a specified len/cap
-	m := make([]int, 5)
-	printSlice(m, "m appended")
+	makedSlice := make([]int, 5)
+	printSlice(makedSlice, "makedSlice appended")
 
 	// Can append slices
-	m = append(m, 100, 101, 102) // slice grows beyond its capacity when appended
-	printSlice(m, "m")
+	makedSlice = append(makedSlice, 100, 101, 102) // slice grows beyond its capacity when appended
+	printSlice(makedSlice, "makedSlice")
 
 	// 2d slice
 	board := [][]string{
