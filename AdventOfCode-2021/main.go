@@ -12,4 +12,11 @@ func main() {
 		ANS pt2: 1395
 	*/
 	Day1_pt2()
+
+	/*
+		1707752 is too low (looped one too few times)
+		1714680 is correct
+	*/
+	Day2()
 }
+
