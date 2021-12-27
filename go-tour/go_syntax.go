@@ -21,7 +21,8 @@ func main() {
 	//ranges()
 	//maps()
 	//goroutines()
-	interfaces()
+	//interfaces()
+	bits()
 }
 
 func maps() {

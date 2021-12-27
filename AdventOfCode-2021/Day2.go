@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+//goland:noinspection GoUnusedExportedFunction
 func Day2() {
 	fmt.Println("Day 2")
 	fileSlice := readInputFile_asStringSlice(2)
@@ -24,7 +25,7 @@ func Day2() {
 		}
 	}
 	fmt.Printf("Final position: %d, %d\n", horPos, depth)
-	fmt.Printf("Ans: %d", horPos * depth)
+	fmt.Printf("Ans: %d", horPos*depth)
 }
 
 func parseDirection(direction string) (string, int) {
@@ -32,4 +33,27 @@ func parseDirection(direction string) (string, int) {
 	amount, err := strconv.Atoi(split[1])
 	check(err)
 	return split[0], amount
+}
+
+func Day2_pt2() {
+	fmt.Println("Day 2 pt2")
+	fileSlice := readInputFile_asStringSlice(2)
+	depth := 0
+	horPos := 0
+	aim := 0
+	for i := 0; i < len(fileSlice); i++ {
+		fmt.Println(fileSlice[i])
+		dir, amount := parseDirection(fileSlice[i])
+		switch dir {
+		case "forward":
+			horPos += amount
+			depth += aim * amount
+		case "down":
+			aim += amount
+		case "up":
+			aim -= amount
+		}
+	}
+	fmt.Printf("Final position: %d, %d\n", horPos, depth)
+	fmt.Printf("Ans: %d", horPos*depth)
 }
