@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
+
 
 /*
 Go syntax
@@ -22,7 +26,26 @@ func main() {
 	//maps()
 	//goroutines()
 	//interfaces()
-	bits()
+	//bits()
+	dateAndtime()
+}
+
+func dateAndtime() {
+	now := time.Now()
+	fmt.Println(now.String()) // 2022-01-19 16:55:44.443302 -0500 EST m=+0.000143126
+
+	fmt.Printf("time.Kitchen: %v\n", time.Kitchen)
+	kitchenTime, _ := time.Parse(time.Kitchen, "4:20PM") // time.Parse returns a time.Time, from a layout and a string that fits in that layout
+	fmt.Printf("kitchenTime: %v\n", kitchenTime.String()) //kitchenTime: 0000-01-01 16:20:00 +0000 UTC, year/m/d is 0 since unspecified values default to zero
+
+	time.Parse(time.RFC822Z, now.String())
+	fmt.Printf("time.RFC822Z: %v\n", now.String()) // time.RFC822Z: 2022-01-19 21:04:12.728706 -0500 EST m=+0.000367251
+
+	fmt.Printf("now.Unix(): %v\n", now.Unix()) // now.Unix(): 1579793344
+	fmt.Printf("now.UTC(): %v\n", now.UTC()) // now.UTF(): 2022-01-19 16:55:44.443302 +0000 UTC
+	fmt.Printf("now + 1hr: %v\n", now.Add(time.Hour * 1)) // now.UTF(): 2022-01-19 16:55:44.443302 +0000 UTC
+	fmt.Printf("now + 1 day: %v\n", now.Add(time.Minute * 1440)) // 1440 mins in a day
+
 }
 
 func maps() {
@@ -57,67 +80,6 @@ func ranges() {
 	for _, v := range pow {
 		fmt.Printf("2^ = %v \n ", v)
 	}
-}
-
-// Slices are dynamically sized collections which are built off of arrays
-func slices() {
-	array := [5]string{"smile", "smize", "size", "spies", "fries"}
-	slice := array[1:3]
-	slice[0] = "CHANGED"
-	fmt.Printf("array: %s \n", array) // array: [smile CHANGED size spies fries]
-	fmt.Printf("slice: %s \n", slice) // slice: [CHANGED size]
-	fullSlice := array[:]
-	fmt.Println("whole array slice: ", fullSlice)
-
-	fmt.Printf("\n---Capacity VS Length---")
-	fmt.Printf("Slice's capacity is the underlying arrays length, counting from the first element in the slice: %v \n", cap(slice))
-	fmt.Printf("Slice's length is how many elements it contains: %v \n", len(slice))
-	fmt.Printf("Underlying arrays length: %v \n", len(array))
-
-	// We can extend a slice up till its capacity
-	// slice = slice[1:] // Remove first element
-	fmt.Printf("Slice literal")
-	fmt.Printf("Slice literals are defined the same as array literals except without a size in []")
-	a := []int{1, 2, 3} // Slice literal
-	fmt.Printf("a = %v", a)
-
-	//a = a[0:4] // Can't extend slices beyond capacity
-	fmt.Printf("a = %v \n", a)
-
-	// Can use `make` to create a slice with a specified len/cap
-	makedSlice := make([]int, 5)
-	printSlice(makedSlice, "makedSlice appended")
-
-	// Can append slices
-	makedSlice = append(makedSlice, 100, 101, 102) // slice grows beyond its capacity when appended
-	printSlice(makedSlice, "makedSlice")
-
-	// 2d slice
-	board := [][]string{
-		[]string{"_", "_", "_"},
-		[]string{"_", "_", "_"},
-		[]string{"_", "_", "_"},
-	}
-	fmt.Println(board)
-
-}
-func printSlice(a []int, label string) {
-	fmt.Printf("%v = %v, len=%v, cap=%v \n", label, a, len(a), cap(a))
-}
-
-// Arrays are fixed size. Slices are dynamically sized.
-func arrays() {
-	var a [10]string
-	a[0] = "farts"
-	a[1] = "toots"
-	a[2] = "trumpet"
-	a[3] = "cut the cheese"
-
-	// Array literal
-	b := [2]string{"smile", "smize"}
-
-	fmt.Println(a)
-	fmt.Println(b)
 }
 
 // structs

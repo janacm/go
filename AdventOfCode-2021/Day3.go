@@ -24,15 +24,15 @@ Strategy
 1 1 1 1 = 15
 - Just invert the gamma rate binary string to get epsilon rate
 */
-const numLength = 12
-const maxPossibleCount = 500
+const numLength = 5
 
 func Day3() {
 	fmt.Println("Day 3")
 	fileSlice := readInputFile_asStringSlice(3)
+	var maxPossibleCount = len(fileSlice) / 2
 
 	//columnTotalZeros := [numLength]int{0,0,0,0,0,0,0,0,0,0,0,0}
-	columnTotalZeros := [numLength]int{}
+	var columnTotalZeros []int
 
 	//for i, decNum := range fileSlice {
 	//	fileSlice[i] = decNumz
@@ -79,7 +79,8 @@ func Day3() {
 func Day3_pt2() {
 	fmt.Println("Day 3")
 	fileSlice := readInputFile_asStringSlice(3)
-
+	var maxPossibleCount = len(fileSlice) / 2
+	fmt.Printf("maxPossibleCount: %d\n", maxPossibleCount)
 	columnTotalZeros := [numLength]int{}
 	//oxygenRating := 0
 	//c02Rating := 0
@@ -101,6 +102,8 @@ func Day3_pt2() {
 
 	for i := 0; i < numLength; i++ {
 		if columnTotalZeros[i] < maxPossibleCount {
+			gammaRateBinary[i] = 1
+		} else if columnTotalZeros[i] == maxPossibleCount {
 			gammaRateBinary[i] = 1
 		} else {
 			epsilonRateBinary[i] = 1

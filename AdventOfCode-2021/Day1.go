@@ -12,9 +12,9 @@ func Day1() {
 	for i := 0; i < len(fileSlice)-1; i++ {
 		fmt.Println(fileSlice[i])
 		currentInt, err := strconv.Atoi(fileSlice[i])
-		check(err)
+		Check(err)
 		nextInt, err2 := strconv.Atoi(fileSlice[i+1])
-		check(err2)
+		Check(err2)
 		if currentInt < nextInt {
 			count++
 		}

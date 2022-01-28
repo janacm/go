@@ -31,7 +31,7 @@ func Day2() {
 func parseDirection(direction string) (string, int) {
 	split := strings.Split(direction, " ")
 	amount, err := strconv.Atoi(split[1])
-	check(err)
+	Check(err)
 	return split[0], amount
 }
 
